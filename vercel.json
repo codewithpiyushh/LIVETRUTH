@@ -1,0 +1,39 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "frontend/",
+        "use": "@vercel/static"
+      },
+      {
+        "src": "fakenews.py",
+        "use": "@vercel/python",
+        "config": {
+          "runtime": "python3.12" 
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/",
+        "dest": "/frontend/imagenews.html"
+      },
+      {
+        "src": "/api/(.*)",
+        "dest": "fakenews.py"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/frontend/$1"
+      }
+    ],
+    "functions": {
+      "fakenews.py": {
+        "memory": 512,
+        "maxDuration": 300
+      }
+    },
+    "env": {
+      "GEMINI_API_KEY": "@gemini_api_key"
+    }
+  }

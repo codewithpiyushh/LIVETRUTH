@@ -1,0 +1,10 @@
+Flask
+Pillow
+easyocr
+numpy
+requests
+beautifulsoup4
+googlesearch-python
+nltk
+google-generativeai
+python-dotenv
