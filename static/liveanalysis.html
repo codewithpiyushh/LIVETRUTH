@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="">
+
+  <title>Livetruth-liveanalysis</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="static/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="static/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="static/css/responsive.css" rel="stylesheet" />
+
+
+</head>
+
+<body class="sub_page">
+
+  <div class="hero_area">
+
+    <div class="hero_bg_box">
+      <div class="bg_img_box">
+        <img src="images/hero-bg.png" alt="">
+      </div>
+    </div>
+
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <span>
+              <img src="static/images/icea.png" width="15%">
+              <img src="static/images/mib.png" width="15%">
+            </span>
+          </a>
+
+          <!-- Fixed the malformed attribute -->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <li class="nav-item ">
+                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="liveanalysis.html">Live Analysis</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="imagenews.html">Fact-check</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="trending.html">Trending news</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="volunteer.html">Be a Volunteer</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+  <!-- about section -->
+
+  <section>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-4 text-center">
+          <h2 class="custom_heading" style="margin-top: 10px; font-weight: bold;">Live News analysis</h2>
+          <div class="input-group" style="width: 100%; max-width: 400px; margin-top:15px;">
+            <input type="text" class="form-control" placeholder="Search News" id="youtube-url-input">
+            <div class="input-group-append">
+              <button id="search-button" class="input-group-text text-secondary">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid py-3">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8">
+              <iframe id="live-news-iframe" width="100%" height="400px" frameborder="0" allowfullscreen></iframe>
+
+            </div>
+            <div id="news-result-container"></div>
+
+
+            <div class="col-lg-4 pt-6 pt-lg-0">
+
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- jQery -->
+  <script type="text/javascript" src="static/js/jquery-3.4.1.min.js"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+  <!-- bootstrap js -->
+  <script type="text/javascript" src="static/js/bootstrap.js"></script>
+  <!-- owl slider -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- custom js -->
+  <script type="text/javascript" src="static/js/custom.js"></script>
+
+  <script>
+    let videoURL = ""; // Global video URL
+    let pollingTimeout;
+  
+    document.addEventListener("DOMContentLoaded", function () {
+      const apiKey = "AIzaSyARyJIZgSMzvh4xtaveoop8YrBp50SjdQA";
+      const searchQuery = "live news india";
+      const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&eventType=live&type=video&q=${encodeURIComponent(searchQuery)}&key=${apiKey}&maxResults=5&relevanceLanguage=en`;
+  
+      const defaultVideoURL = "https://www.youtube.com/watch?v=gadjsB5BkK4";
+      const defaultVideoID = "gadjsB5BkK4";
+      const liveNewsIframe = document.getElementById("live-news-iframe");
+  
+      function extractVideoID(url) {
+        const regExp = /(?:youtube\.com.*[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = url.match(regExp);
+        return match ? match[1] : null;
+      }
+  
+      function pollLiveNews() {
+        if (!videoURL) {
+          videoURL = defaultVideoURL;
+        }
+  
+        fetch("http://localhost:8080/livenews", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ url: videoURL })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.error) {
+              console.error("Error:", data.error);
+            } else {
+              const resultContainer = document.getElementById("news-result-container");
+  
+              const newEntry = document.createElement("div");
+              newEntry.classList.add("news-result");
+              newEntry.innerHTML = `
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">📰 Claim:</h5>
+                    <p>${data.summary}</p>
+                    <h6 class="card-subtitle mb-2 text-muted">✅ Fact Check:</h6>
+                    <p>${data.fact_check}</p>
+                  </div>
+                </div>
+              `;
+              resultContainer.prepend(newEntry);
+            }
+  
+            pollingTimeout = setTimeout(pollLiveNews, 1); // 30 sec delay
+          })
+          .catch(error => {
+            console.error("Fetch error:", error);
+            pollingTimeout = setTimeout(pollLiveNews, 10000);
+          });
+      }
+  
+      // Trigger polling initially with default video
+      videoURL = defaultVideoURL;
+      liveNewsIframe.src = `https://www.youtube.com/embed/${defaultVideoID}?autoplay=1&mute=1`;
+      pollLiveNews();
+  
+      document.getElementById("search-button").addEventListener("click", function () {
+        const inputURL = document.getElementById("youtube-url-input").value.trim();
+        const resultContainer = document.getElementById("news-result-container");
+  
+        const videoId = extractVideoID(inputURL);
+        if (!videoId) {
+          alert("Invalid YouTube URL. Loading default video.");
+          videoURL = defaultVideoURL;
+          liveNewsIframe.src = `https://www.youtube.com/embed/${defaultVideoID}?autoplay=1&mute=1`;
+        } else {
+          videoURL = inputURL;
+          liveNewsIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
+        }
+  
+        resultContainer.innerHTML = ""; // Clear previous results
+        clearTimeout(pollingTimeout);   // Stop any ongoing polling
+        pollLiveNews();                 // Start new polling
+      });
+  
+      // Load carousel
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          if (data.items && data.items.length > 0) {
+            const carousel = document.getElementById("livenews-carousel");
+  
+            data.items.forEach((video, index) => {
+              if (index === 0) return;
+              const videoId = video.id.videoId;
+              const videoTitle = video.snippet.title;
+              const thumbnailUrl = video.snippet.thumbnails.high.url;
+  
+              const videoItem = document.createElement("div");
+              videoItem.classList.add("news-item");
+              videoItem.innerHTML = `
+                <div class="card">
+                  <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">
+                    <img src="${thumbnailUrl}" class="card-img-top" alt="Live News">
+                  </a>
+                  <div class="card-body">
+                    <h5 class="card-title">${videoTitle}</h5>
+                    <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" class="btn btn-danger">Watch Live</a>
+                  </div>
+                </div>
+              `;
+              carousel.appendChild(videoItem);
+            });
+  
+            $(".owl-carousel").owlCarousel({
+              loop: true,
+              margin: 10,
+              nav: true,
+              autoplay: true,
+              autoplayTimeout: 5000,
+              responsive: {
+                0: { items: 1 },
+                600: { items: 2 },
+                1000: { items: 3 }
+              }
+            });
+          } else {
+            console.warn("No live news videos found.");
+          }
+        })
+        .catch(error => console.error("Error fetching YouTube videos:", error));
+    });
+  </script>
+  
+  <!-- End Google Map -->
+
+</body>
+
+</html>

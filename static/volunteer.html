@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveTruth</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="static/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/responsive.css">
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Meta -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <!-- Inline Custom Styles -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .news-card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        .status-verified {
+            color: green;
+        }
+
+        .status-fake {
+            color: red;
+        }
+
+        .status-review {
+            color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero_area">
+        <div class="hero_bg_box">
+            <div class="bg_img_box">
+                <img src="static/images/hero-bg.png" alt="">
+            </div>
+        </div>
+
+        <header class="header_section">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg custom_nav-container">
+                    <a class="navbar-brand" href="index.html">
+                        <span>
+                            <img src="static/images/icea.png" width="15%">
+                            <img src="static/images/mib.png" width="15%">
+                        </span>
+                    </a>
+
+                    <!-- Toggle button -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- Navbar links -->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="liveanalysis.html">Live Analysis</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="imagenews.html">Fact-check</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="trending.html">Trending News</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="volunteer.html">Be a Volunteer</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <div class="container mt-4">
+            <div class="text-center mb-4">
+                <h3 style="color: white;">Join as a Local News Verifier</h3>
+                <p style="color: white;">Help verify news in your area and fight misinformation in real-time.</p>
+            </div>
+
+            <h4 style="color: white;">📍 Your Location: <span id="location">Fetching...</span></h4>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h4 style="color: white;">🔍 News in Your Area</h4>
+                    <div id="news-container"></div>
+                </div>
+                <div class="col-md-4">
+                    <h4 style="color: white;">🏆 Your Credibility Score</h4>
+                    <div class="card p-3">
+                        <h5>🌟 Level: Trusted Verifier</h5>
+                        <p>✔ Verified as true: <span id="verified-news">0</span></p>
+                        <p>⚠ Reports Under Review: <span id="under-review">0</span></p>
+                        <p>❌ Verified as false: <span id="incorrect-reports">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        const apiKey = ''; // Replace with your Newsdata.io API key
+        const apiUrl = `https://newsdata.io/api/1/news?apikey=${apiKey}&language=en&country=in`;
+
+        function fetchLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    fetchCityState(lat, lon);
+                });
+            } else {
+                document.getElementById("location").innerText = "Geolocation not supported.";
+            }
+        }
+
+        function fetchCityState(lat, lon) {
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.address) {
+                        const city = data.address.city || data.address.town || data.address.village;
+                        const state = data.address.state;
+                        const locationText = city ? `${city}, ${state}` : state;
+                        document.getElementById("location").innerText = locationText;
+                        fetchNews(locationText);
+                    } else {
+                        document.getElementById("location").innerText = "Location not found.";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching location:", error);
+                    document.getElementById("location").innerText = "Error fetching location.";
+                });
+        }
+
+        async function fetchNews(query = '') {
+            let searchUrl = apiUrl;
+            if (query) {
+                searchUrl += `&q=${encodeURIComponent(query)}`;
+            }
+            try {
+                const response = await fetch(searchUrl);
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                const data = await response.json();
+                displayNews(data.results || []);
+            } catch (error) {
+                console.error('Error fetching news:', error.message);
+                document.getElementById('news-container').innerHTML = '<p>Failed to fetch news. Please try again later.</p>';
+            }
+        }
+
+        function displayNews(newsItems) {
+            const newsContainer = document.getElementById('news-container');
+            newsContainer.innerHTML = '';
+            newsItems.forEach(news => {
+                newsContainer.innerHTML += `
+                    <div class='card news-card mb-3' data-verified='false'>
+                        <h5>${news.title}</h5>
+                        <p><strong>Location:</strong> ${news.country}</p>
+                        <p><strong>Date:</strong> ${news.pubDate}</p>
+                        <p><strong>Status:</strong> <span class='status-review'>Under Review</span></p>
+                        <button class='btn btn-outline-success verify-true' data-news-id='${news.article_id}' onclick='verifyNews(true, this)'>✅ True</button>
+                        <button class='btn btn-outline-danger verify-false' data-news-id='${news.article_id}' onclick='verifyNews(false, this)'>❌ False</button>
+                    </div>`;
+            });
+        }
+
+        function verifyNews(isTrue, button) {
+            const card = button.closest('.news-card');
+            if (card.dataset.verified === 'true') {
+                alert('This news has already been verified.');
+                return;
+            }
+
+            const statusSpan = card.querySelector('span');
+            const trueButton = card.querySelector('.verify-true');
+            const falseButton = card.querySelector('.verify-false');
+            let verifiedCount = parseInt(document.getElementById("verified-news").innerText);
+            let incorrectCount = parseInt(document.getElementById("incorrect-reports").innerText);
+
+            if (isTrue) {
+                statusSpan.textContent = 'Verified True';
+                statusSpan.className = 'status-verified';
+                document.getElementById("verified-news").innerText = ++verifiedCount;
+            } else {
+                statusSpan.textContent = 'Verified False';
+                statusSpan.className = 'status-fake';
+                document.getElementById("incorrect-reports").innerText = ++incorrectCount;
+            }
+
+            card.dataset.verified = 'true';
+            trueButton.disabled = true;
+            falseButton.disabled = true;
+
+            // TODO: Make backend call to save verification result.
+        }
+
+        // Start by fetching user location
+        fetchLocation();
+    </script>
+</body>
+
+</html>
