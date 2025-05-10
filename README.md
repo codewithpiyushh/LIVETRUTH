@@ -26,6 +26,16 @@ LiveTruth features an agentic, modular pipeline designed for real-time misinform
 ![LiveTruth Architecture](path/to/your/architecture-image.png)
 
 
+## Screenshots
+![image](https://github.com/user-attachments/assets/0204cd4b-caf5-4c28-ae2f-883c7f0e8848)
+![image](https://github.com/user-attachments/assets/30f8b20b-2783-4413-abd2-81e9d14b88ea)
+![image](https://github.com/user-attachments/assets/f457a77f-9620-4038-98ac-4fb4ab62eb7f)
+![image](https://github.com/user-attachments/assets/16f4cdb1-5fc4-45bc-8249-1f1219bc5d3c)
+![image](https://github.com/user-attachments/assets/06016f0f-2bfc-46f7-96dc-ac47bc50952c)
+![image](https://github.com/user-attachments/assets/16995cde-92a6-4085-893a-552905ef5e33)
+![image](https://github.com/user-attachments/assets/537d7010-f755-4421-bb6d-e7300c07574f)
+
+
 ## 🛠️ Tech Stack
 
 - **Backend**: Go (Golang), Flask
