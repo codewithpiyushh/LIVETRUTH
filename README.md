@@ -64,7 +64,7 @@
 ![image](https://github.com/user-attachments/assets/f5bc8a31-de93-4251-a971-3593c52cd8de)
 
 
-## ✅ Installation
+##  Installation
 
 Follow the steps below to set up and run **LiveTruth** locally on your machine:
 
