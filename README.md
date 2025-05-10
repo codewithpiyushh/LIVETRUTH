@@ -19,12 +19,6 @@
 - **Scalable Go Backend**: High concurrency, cross-platform support, and smooth integration with cloud tools.
 - **Credibility Scoring**: Confidence scores backed by source reliability analysis to enhance trust and transparency.
 
-## 🧩 Architecture
-
-LiveTruth features an agentic, modular pipeline designed for real-time misinformation detection. It combines intelligent agents, dynamic knowledge retrieval, and scalable infrastructure to ensure accurate, explainable, and timely fact-checking.
-
-![LiveTruth Architecture](path/to/your/architecture-image.png)
-
 
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/0204cd4b-caf5-4c28-ae2f-883c7f0e8848)
@@ -42,5 +36,32 @@ LiveTruth features an agentic, modular pipeline designed for real-time misinform
 - **AI/ML**: pydantic, langchain
 - **Web scrapping**: Firecrawl API
 
+
 ## 📁 Project Structure
+
+```text
+
+├── agent/                     # Python scripts for core functionalities
+│   ├── db-create.py           # Script to create chromadb
+│   ├── fakenews.py            # Fake news detection logic
+│   ├── final copy.py          
+│   ├── final.py               # Main execution script
+│   ├── livenews-flask.py      # Flask app for live news processing
+│   ├── whatsapp-rag.py        # RAG-based WhatsApp processing script
+│
+├── resources/js/              # JavaScript resources (frontend logic, if any)
+│
+├── scraper/                   # Web scraping 
+│
+├── static/                    # Static files (CSS, images, etc.)
+│
+├── main.go                    # Main Go application entry point
+├── scraped_data.json          # Sample or processed scraped data
+```
+
+
+## Whatsapp Bot
+![image](https://github.com/user-attachments/assets/f5bc8a31-de93-4251-a971-3593c52cd8de)
+
+
 
