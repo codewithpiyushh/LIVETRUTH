@@ -64,4 +64,31 @@
 ![image](https://github.com/user-attachments/assets/f5bc8a31-de93-4251-a971-3593c52cd8de)
 
 
+## ✅ Installation
+
+Follow the steps below to set up and run **LiveTruth** locally on your machine:
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/LiveTruth.git
+cd LiveTruth
+```
+### 2. Set Up the Python Environment
+Navigate to the agent folder and install the required dependencies:
+```bash
+cd agent
+pip install -r requirements.txt
+```
+### 3. Initialize Vector Database & Start RAG Pipeline
+Run the following scripts to set up ChromaDB, launch the RAG pipeline, and start real-time analysis
+```bash
+python db-create.py
+python final.py
+python live-analysis.py
+```
+### 4.Run the Go Backend
+Return to the root directory and start the Go server:
+```bash
+go run main.go
+```
 
