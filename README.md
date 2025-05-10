@@ -91,4 +91,19 @@ Return to the root directory and start the Go server:
 ```bash
 go run main.go
 ```
+## 🧠 Future Scope
 
+- Integrate multilingual support for regional misinformation detection  
+- Deploy as a cloud-native microservice with Docker & Kubernetes  
+- Incorporate user feedback to improve model accuracy over time  
+- Build a mobile-friendly interface   
+- Enhance live broadcast analysis with speaker attribution
+
+## 👥 Team
+
+Meet the amazing minds behind LiveTruth:
+
+- [Nikita Babbar](https://www.linkedin.com/in/nikita-babbar-b0291026a/)   
+- [Piyush Singh](https://www.linkedin.com/in/piyushhh-singhh/) 
+- [Manya Joshi](https://www.linkedin.com/in/manya-joshi-ai/) 
+ 
