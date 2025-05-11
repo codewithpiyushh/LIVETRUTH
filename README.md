@@ -107,8 +107,8 @@ go run main.go
 
 Meet the amazing minds behind LiveTruth:
 
+- [Piyush Singh](https://www.linkedin.com/in/piyushhh-singhh/) 
 - [Nikita Babbar](https://www.linkedin.com/in/nikita-babbar-b0291026a/)   
 - [Manya Joshi](https://www.linkedin.com/in/manya-joshi-ai/) 
-- [Piyush Singh](https://www.linkedin.com/in/piyushhh-singhh/) 
 
  
