@@ -1,4 +1,8 @@
-# LiveTruth
+<h2 style="display: flex; align-items: center;">
+  <img src="https://github.com/user-attachments/assets/c95b3292-bdc5-402e-bcc4-a4b6840e6867" width="200" height="60" style="margin-right: 10px;" />
+ &nbsp;&nbsp;&nbsp;
+  LiveTruth: AI-powered Misinformation Detection System
+</h2>
 
 **LiveTruth** is a real-time AI-powered misinformation detection system that verifies news across various formats — text, images, headlines, live broadcasts, and geo-based news. Built with a Go backend, LiveTruth is engineered for speed, security, and adaptability in the fast-paced world of information.
 
